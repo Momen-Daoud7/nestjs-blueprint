@@ -19,10 +19,10 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "cross-env NODE_ENV=testing jest --config ./test/jest-e2e.json --watch --maxWorkers=1",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
-    "migration:run": "npm run typeorm migration:run -- -d ./ormconfig.ts",
-    "migration:generate": "npm run typeorm -- -d ./ormconfig.ts migration:generate ./migrations/intialSchema",
-    "migration:create": "npm run typeorm -- migration:create ./migrations/intialSchema",
-    "migration:revert": "npm run typeorm -- -d ./ormconfig.ts migration:revert"
+    "migration:run": "npm run typeorm migration:run -- -d ./config/typeorm.ts",
+    "migration:generate": "npm run typeorm -- -d ./config/typeorm.ts migration:generate ./migrations/initial",
+    "migration:create": "npm run typeorm -- migration:create ./migrations/initial",
+    "migration:revert": "npm run typeorm -- -d ./config/typeorm.ts migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -41,6 +41,7 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "sqlite3": "^5.1.7",
