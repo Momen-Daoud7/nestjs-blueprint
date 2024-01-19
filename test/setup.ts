@@ -9,7 +9,7 @@ global.beforeEach(async () => {
       await connection.close();
     })
     .catch((error) => console.log(error));
-});
+})
 
 global.afterEach(async () => {
   const conn = getConnection();

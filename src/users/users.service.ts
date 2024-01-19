@@ -15,11 +15,11 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    const user =  await this.usersRepository.findOneBy({ id });
-    if(!user) {
-      throw new NotFoundException("User not found")
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException('User not found');
     }
-    return user
+    return user;
   }
 
   findOneByEmail(email: string): Promise<User | null> {
@@ -51,5 +51,9 @@ export class UsersService {
       throw new NotFoundException('user not found');
     }
     return this.usersRepository.remove(user);
+  }
+
+  async truncate(): Promise<void> {
+    return await this.usersRepository.clear();
   }
 }

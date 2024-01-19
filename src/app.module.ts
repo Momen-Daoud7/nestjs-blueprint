@@ -7,7 +7,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
-import { configuration } from 'config/configuration';
+import { configuration } from '../config/configuration';
 const cookieSession = require('cookie-session');
 
 console.log(`${process.env.NODE_ENV}`);
@@ -21,17 +21,17 @@ console.log(`${process.env.NODE_ENV}`);
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        type: configService.get('DATABASE_TYPE') as 'mysql',
-        host: configService.get('DATABASE_HOST') as string,
-        port: configService.get('DATABASE_PORT') as number,
-        username: configService.get('DATABASE_USERNAME') as string,
-        password: configService.get('DATABASE_PASSWORD') as string,
-        database: configService.get('DATABASE_NAME') as string,
-        entities: ['dist/**/*.entity{.ts,.js}'],
-        synchronize: true,
-        migrations: ['dist/migrations/*{.ts,.js}'],
-      }),
+      // useFactory: async (configService: ConfigService) => ({
+      //   type: configService.get('DATABASE_TYPE') as "sqlite",
+      //   host: configService.get('DATABASE_HOST') as string,
+      //   port: configService.get('DATABASE_PORT') as number,
+      //   username: configService.get('DATABASE_USERNAME') as string,
+      //   password: configService.get('DATABASE_PASSWORD') as string,
+      //   database: configService.get('DATABASE_NAME') as string,
+      //   entities: ['dist/**/*.entity{.ts,.js}'],
+      //   synchronize: true,
+      //   migrations: ['dist/migrations/*{.ts,.js}'],
+      // }),
     }),
 
     UsersModule,

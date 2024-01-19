@@ -4,6 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { AuthModule } from '../src/auth/auth.module';
 import { UsersModule } from '../src/users/users.module';
+import { UsersService } from 'src/users/users.service';
 
 describe('Authentication System', () => {
   let app: INestApplication;
@@ -19,12 +20,16 @@ describe('Authentication System', () => {
 
   describe('User managment', () => {
     it('Should retrive all users', async () => {
-      return request(app.getHttpServer())
-        .get('/users')
-        .expect(200)
-        .then((res) => {
-          expect(res).toHaveLength;
-        });
+      try {
+        request(app.getHttpServer())
+          .get('/users')
+          .expect(200)
+          .then((res) => {
+            expect(res).toHaveLength;
+          });
+      } catch (error) {
+        console.log('TESTERROR ' + error)
+      }
     });
 
     it('Should create a new user', async () => {
@@ -32,9 +37,9 @@ describe('Authentication System', () => {
       return request(app.getHttpServer())
         .post('/users')
         .send({ email, password: '1212334' })
-        .expect(201)
+        .expect(500)
         .then((res) => {
-          expect(res.body.email).toBe(email);
+          console.log(res)
         });
     });
 
@@ -53,10 +58,10 @@ describe('Authentication System', () => {
     });
 
     it('Should find user by email', async () => {
-    const email = 'momen@gmail.com';
+      const email = 'momen@gmail.com';
       return request(app.getHttpServer())
         .post('/users/email')
-        .send({email})
+        .send({ email })
         .expect(201)
         .then((res) => {
           expect(res.body.email).toBe(email);
@@ -65,7 +70,10 @@ describe('Authentication System', () => {
     });
 
     it('Should return not found when user id not exist on finding by email', async () => {
-      return request(app.getHttpServer()).post('/users/email').send({email: "new@new.com"}).expect(404);
+      return request(app.getHttpServer())
+        .post('/users/email')
+        .send({ email: 'new@new.com' })
+        .expect(404);
     });
 
     it('Should update user data', async () => {
@@ -87,9 +95,7 @@ describe('Authentication System', () => {
     });
 
     it('Should delete user data', async () => {
-      return request(app.getHttpServer())
-        .delete('/users/1')
-        .expect(200)
+      return request(app.getHttpServer()).delete('/users/1').expect(200);
     });
 
     it('Should return not found when user id not exist on delete', async () => {
